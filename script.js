@@ -5,36 +5,35 @@
 	
 	// configure our routes
 	myApp.config(function($routeProvider) {
-		$routeProvider
-
+		$routeProvider.
 			/*/ route for the home page
 			.when('/', {
 				templateUrl : 'home.html',
 				controller  : 'mainController'
 			})*/
-
 			// route for the book page
-			.when('/book', {
+			when('/book', {
 				templateUrl : 'BookView.html',
 				controller  : 'bookController'
-			})
-
+			}).
 			// route for the settings page
-			.when('/search', {
+			when('/search', {
 				templateUrl : 'search.html',
 				controller  : 'searchController'
-			})
-			
-			.when('/customer',{
+			}).
+			when('/customer',{
 				templateUrl : 'customer.html',
 				controller  : 'customerController'
+			}).
+			otherwise({
+				redirectTo  : '/search'
 			});
 	});
 
 	// create the controller and inject Angular's $scope
 	
 
-	myApp.controller('bookController', function($scope, $http) {
+	myApp.controller('BookController', function($scope, $http) {
 		var book = this;
 		//to be eliminated once I figure out how to do this correctly
 		book.id = "";
@@ -58,18 +57,27 @@
 			//                'Access-Control-Allow-Origin' : 'http://ec2-52-23-163-68.compute-1.amazonaws.com' //VERY BAD
 			//            }
 			//        }
-
 			//        var info = JSON.parse($http(req).data);
-			var info = JSON.parse('{"id":2,"isbn":"isbn1234","authorID":12,"author":null,"title":"testTitle","count":400,"price":12.5,"rating":0}');
-			book.id = info.id;
-			book.title = "asdf";
-			book.isbn = info.isbn;
-			book.authorID = info.authorID;
-			book.author = info.author;
-			book.title = info.title;
-			book.count = info.count;
-			book.price = info.price;
-			book.rating = info.rating;
+			$http.get("http://52.25.95.1:8080/testingPublishing/service/book/getBook?bookID=3")
+				.then(function(response) {
+					console.log("SUCCESS");
+					console.log(response.data);
+					var info = response.data;
+					book.id = info.id;
+					book.title = info.title;
+					book.isbn = info.isbn;
+					book.authorID = info.authorID;
+					book.author = info.author;
+					book.title = info.title;
+					book.count = info.count;
+					book.price = info.price;
+					book.rating = info.rating;
+					console.log(book);
+				}, function(response) {
+					console.log("FAILURE");
+					console.log(response);
+				});
+			//var info = JSON.parse('{"id":2,"isbn":"isbn1234","authorID":12,"author":null,"title":"testTitle","count":400,"price":12.5,"rating":0}');
 		};
 	});
 
