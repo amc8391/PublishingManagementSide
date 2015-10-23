@@ -1,0 +1,42 @@
+<!doctype html>
+<html ng-app="bookApp">
+  <head>
+    <script src="js/angular.js"></script>
+    <script src="js/book.js"></script>
+  </head>
+  <body>
+    <div ng-controller="BookController as book">
+        <h2>Book {{book.title}}</h2>
+        <table>
+            <tr>
+                <td>ID</td>
+                <td>{{book.id}}</td>
+            </tr>
+            <tr>
+                <td>ISBN</td>
+                <td>{{book.isbn}}</td>
+            </tr>
+            <tr>
+                <td>Author</td>
+                <td>{{book.author}}</td>
+            </tr>
+            <tr>
+                <td>Title</td>
+                <td>{{book.title}}</td>
+            </tr>
+            <tr>
+                <td>Count</td>
+                <td>{{book.count}}</td>
+            </tr>
+            <tr>
+                <td>Price</td>
+                <td>{{book.price}}</td>
+            </tr>
+                       
+        </table>
+        
+        
+      [ <a href="" ng-click="book.getBookInfo(2)">Get Book Info</a> ]
+    </div>
+  </body>
+</html>
