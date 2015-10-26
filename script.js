@@ -13,8 +13,20 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 			//	controller  : 'indexController'
 			//}).
 			// route for the book page
+			when('/', {
+				templateURL : 'Home.html',
+				controller  : 'HomeController'
+			}).
 			when('/book', {
 				templateUrl : 'BookView.html',
+				controller  : 'BookController'
+			}).
+			when('/bookadd', {
+				templateUrl : 'BookAdd.html',
+				controller  : 'BookController'
+			}).
+			when('/bookupdate', {
+				templateUrl : 'BookUpdate.html',
 				controller  : 'BookController'
 			}).
 			// route for the settings page
@@ -25,6 +37,13 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 			when('/customer',{
 				templateUrl : 'Customer.html',
 				controller  : 'customerController'
+			}).
+			when('/404',{
+				templateURL : '404.html',
+				controller  : 'NotFoundController'
+			}).
+			otherwise({
+				redirectTo  : '/404'
 			});
 			//.
 			//otherwise({
@@ -74,12 +93,40 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 					book.count = info.count;
 					book.price = info.price;
 					book.rating = info.rating;
+					book.genre = info.genre;
 					console.log(book);
 				}, function(response) {
 					console.log("FAILURE");
 					console.log(response);
 				});
 			//var info = JSON.parse('{"id":2,"isbn":"isbn1234","authorID":12,"author":null,"title":"testTitle","count":400,"price":12.5,"rating":0}');
+		};
+
+		book.addBook = function () {
+			var url = SERVER_ADDRESS + "book/addBook?isbn=" + book.isbn + "&authorID=" + book.authorID + "&title=" + book.title + "&count=" + book.count + "&price=" + book.price + "&genre=" + book.genre;
+			
+			$http.get( url )
+				.then(function(response) {
+					console.log("SUCCESS");
+					console.log(response);
+				}, function(response) {
+					console.log("FAILURE");
+					console.log(response);
+				});
+		};
+
+		book.updateCount = function (){
+
+			var url = SERVER_ADDRESS + "book/updateCount?bookID=" + book.id + "&count=" + book.count;
+			
+			$http.get( url )
+				.then(function(response) {
+					console.log("SUCCESS");
+					console.log(response);
+				}, function(response) {
+					console.log("FAILURE");
+					console.log(response);
+				});
 		};
 	});
 
@@ -95,4 +142,11 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 		$scope.message = 'Look! I am the main page.';
 	});
 	
+	myApp.controller('NotFoundController', function($scope) {
+		$scope.message = '404: Page not found.';
+	});
+
+	myApp.controller('searchController', function($scope) {
+		$scope.message = 'Welcome to PMS.';
+	});
 	
