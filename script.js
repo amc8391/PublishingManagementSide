@@ -14,7 +14,7 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 			//}).
 			// route for the book page
 			when('/', {
-				templateURL : 'Home.html',
+				templateUrl : 'Home.html',
 				controller  : 'HomeController'
 			}).
 			when('/book', {
@@ -39,7 +39,7 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 				controller  : 'customerController'
 			}).
 			when('/404',{
-				templateURL : '404.html',
+				templateUrl : '404.html',
 				controller  : 'NotFoundController'
 			}).
 			otherwise({
@@ -143,10 +143,11 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 	});
 	
 	myApp.controller('NotFoundController', function($scope) {
+		console.log("using NotFoundController");
 		$scope.message = '404: Page not found.';
 	});
 
-	myApp.controller('searchController', function($scope) {
+	myApp.controller('HomeController', function($scope) {
 		$scope.message = 'Welcome to PMS.';
 	});
 	
