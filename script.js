@@ -1,3 +1,4 @@
+var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/" 
 	// create the module and name it bookApp
 	var myApp = angular.module('myApp', ['ngRoute']);
 
@@ -6,28 +7,29 @@
 	// configure our routes
 	myApp.config(function($routeProvider) {
 		$routeProvider.
-			/*/ route for the home page
-			.when('/', {
-				templateUrl : 'home.html',
-				controller  : 'mainController'
-			})*/
+			//// route for the home page
+			//when('/', {
+			//	templateUrl : 'index.html',
+			//	controller  : 'indexController'
+			//}).
 			// route for the book page
 			when('/book', {
 				templateUrl : 'BookView.html',
-				controller  : 'bookController'
+				controller  : 'BookController'
 			}).
 			// route for the settings page
 			when('/search', {
-				templateUrl : 'search.html',
+				templateUrl : 'Search.html',
 				controller  : 'searchController'
 			}).
 			when('/customer',{
-				templateUrl : 'customer.html',
+				templateUrl : 'Customer.html',
 				controller  : 'customerController'
-			}).
-			otherwise({
-				redirectTo  : '/search'
 			});
+			//.
+			//otherwise({
+			//	redirectTo  : '/search'
+			//});
 	});
 
 	// create the controller and inject Angular's $scope
@@ -45,7 +47,7 @@
 		book.price = "";
 		book.rating = "";
 
-		book.getBookInfo = function () {
+		book.getBookInfo = function (lookupID) {
 			console.log("getBookInfo called");
 			//        var req = {
 			//            method: 'GET',
@@ -58,7 +60,7 @@
 			//            }
 			//        }
 			//        var info = JSON.parse($http(req).data);
-			$http.get("http://52.25.95.1:8080/testingPublishing/service/book/getBook?bookID=3")
+			$http.get( SERVER_ADDRESS + "book/getBook?bookID=" + lookupID)
 				.then(function(response) {
 					console.log("SUCCESS");
 					console.log(response.data);
@@ -87,6 +89,10 @@
 	
 	myApp.controller('customerController', function($scope) {
 		$scope.message = 'Look! I am an about page.';
+	});
+	
+	myApp.controller('indexController', function($scope) {
+		$scope.message = 'Look! I am the main page.';
 	});
 	
 	
