@@ -30,9 +30,9 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 				controller  : 'BookController'
 			}).
 			// route for the settings page
-			when('/search', {
-				templateUrl : 'Search.html',
-				controller  : 'searchController'
+			when('/Buy', {
+				templateUrl : 'Buy.html',
+				controller  : 'buyController'
 			}).
 			when('/customer',{
 				templateUrl : 'Customer.html',
@@ -130,8 +130,17 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 		};
 	});
 
-	myApp.controller('searchController', function($scope) {
-		$scope.message = 'I am the search page.';
+	myApp.controller('buyController', function($scope) {
+		var book = this;
+		//to be eliminated once I figure out how to do this correctly
+		book.id = "";
+		book.isbn = "";
+		book.authorID = "";
+		book.author = "";
+		book.title = "";
+		book.count = "";
+		book.price = "";
+		book.rating = "";
 	});
 	
 	myApp.controller('customerController', function($scope) {
