@@ -31,12 +31,24 @@
     </div>
     <div>
       <ul class="nav navbar-nav navbar-right">
-	<a class="navbar-brand" href="#"><i class="fa fa-home"></i>Home</a>
         <a class="navbar-brand" href="#search"><i class="fa fa-search"></i> Search</a>
+	<a class="navbar-brand" href="#"><i class="fa fa-home"></i>Home</a>
+        <a class="navbar-brand" href="#cart"><i class="fa fa-search"></i> Cart</a>
         <a class="navbar-brand" href="#book"><i class="fa fa-book"></i> View Books</a>
         <a class="navbar-brand" href="#bookadd"><i class="fa fa-book"></i> Add Books</a>
         <a class="navbar-brand" href="#bookupdate"><i class="fa fa-book"></i> Update Books</a>
         <a class="navbar-brand" href="#customer"><i class="fa fa-user"></i> View Customers</a>
+		<a class="navbar-brand"
+			<form target="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+			<!-- Identify your business so that you can collect the payments. -->
+			<input type="hidden" name="business" value="info@capleswebdev.com">
+			<!-- Specify a PayPal Shopping Cart View Cart button. -->
+			<input type="hidden" name="cmd" value="_cart">
+			<input type="hidden" name="display" value="1">
+			<!-- Display the View Cart button. -->
+			<input type="image" name="submit" border="0" src="https://www.paypal.com/en_US/i/btn/btn_viewcart_LG.gif" alt="PayPal - The safer, easier way to pay online">
+			</form>
+		</a> 
       </ul>
     </div>
   </div>
