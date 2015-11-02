@@ -98,6 +98,16 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 				}, function(response) {
 					console.log("FAILURE");
 					console.log(response);
+					book.id 	= -1;
+					book.title 	= "Error: Could not find book";
+					book.isbn 	= "";
+					book.authorID 	= -1;
+					book.author 	= "";
+					book.count 	= 0;
+					book.price	= 0;
+					book.rating 	= 0;
+					book.genre 	= "";
+
 				});
 			//var info = JSON.parse('{"id":2,"isbn":"isbn1234","authorID":12,"author":null,"title":"testTitle","count":400,"price":12.5,"rating":0}');
 		};
