@@ -42,6 +42,10 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 				templateUrl : '404.html',
 				controller  : 'NotFoundController'
 			}).
+			when('/login',{
+				templateUrl	: 'login.html',
+				controller	: 'NotFoundController'
+			}).
 			otherwise({
 				redirectTo  : '/404'
 			});
@@ -170,3 +174,7 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 		$scope.message = 'Welcome to PMS.';
 	});
 	
+	myApp.controller('LoginController', function($scope) {
+		$scope.message = 'Look! I am a Login page.';
+	});
+
