@@ -44,7 +44,7 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 			}).
 			when('/login',{
 				templateUrl	: 'login.html',
-				controller	: 'NotFoundController'
+				controller	: 'LoginController'
 			}).
 			otherwise({
 				redirectTo  : '/404'
@@ -174,7 +174,29 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 		$scope.message = 'Welcome to PMS.';
 	});
 	
-	myApp.controller('LoginController', function($scope) {
+	myApp.controller('LoginController', function($scope, $http) {
 		$scope.message = 'Look! I am a Login page.';
+
+		$scope.tryLogin = function(){
+			//-1	fail case
+			//UID	pass case
+			var url = SERVER_ADDRESS + "login/attempt?username=" + $scope.username + "&password=" + $scope.password;
+			var userData = null;
+			console.log("Making POST request to " + url);
+			$http.post( url )
+				.then(function(response) {
+					console.log("SUCCESS");
+					console.log(response);
+					userData = JSON.parse(response.data)
+				}, function(response) {
+					console.log("FAILURE");
+					console.log(response);
+				});
+
+			if(userData.uid === -1){
+				$scope.message = 'Invalid Login!!'
+			}
+			console.log(userData);
+		};
 	});
 
