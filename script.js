@@ -180,10 +180,10 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 		$scope.tryLogin = function(){
 			//-1	fail case
 			//UID	pass case
-			var url = SERVER_ADDRESS + "login/attempt?username=" + $scope.username + "&password=" + $scope.password;
+			var url = SERVER_ADDRESS + "login/attempt";
 			var userData = null;
 			console.log("Making POST request to " + url);
-			$http.post( url )
+			$http.post( url, {"username":$scope.username, "password":$scope.password}, null)
 				.then(function(response) {
 					console.log("SUCCESS");
 					console.log(response);
