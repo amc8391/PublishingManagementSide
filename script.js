@@ -7,12 +7,7 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 	// configure our routes
 	myApp.config(function($routeProvider) {
 		$routeProvider.
-			//// route for the home page
-			//when('/', {
-			//	templateUrl : 'index.html',
-			//	controller  : 'indexController'
-			//}).
-			// route for the book page
+			// route for the home page
 			when('/', {
 				templateUrl : 'Home.html',
 				controller  : 'HomeController'
@@ -29,7 +24,6 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 				templateUrl : 'BookUpdate.html',
 				controller  : 'BookController'
 			}).
-			// route for the settings page
 			when('/Buy', {
 				templateUrl : 'Buy.html',
 				controller  : 'buyController'
@@ -49,10 +43,6 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 			otherwise({
 				redirectTo  : '/404'
 			});
-			//.
-			//otherwise({
-			//	redirectTo  : '/search'
-			//});
 	});
 
 	// create the controller and inject Angular's $scope
