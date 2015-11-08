@@ -188,15 +188,15 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 					console.log("SUCCESS");
 					console.log(response);
 					userData = JSON.parse(response.data)
+					if(userData.uid === -1){
+						$scope.message = 'Invalid Login!!'
+					}
+					console.log(userData);
 				}, function(response) {
 					console.log("FAILURE");
 					console.log(response);
+					console.log(userData);
 				});
-
-			if(userData.uid === -1){
-				$scope.message = 'Invalid Login!!'
-			}
-			console.log(userData);
 		};
 	});
 
