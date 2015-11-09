@@ -241,9 +241,9 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 
             updateLoginMessage : function(){
                 if(loginServiceInstance.authenticated){
-                    return message = 'Logged in as ' + loginServiceInstance.currentUser.username;
+                    loginServiceInstance.loginMessage = 'Logged in as ' + loginServiceInstance.currentUser.username;
                 } else {
-                    return message = 'Please log in or sign up to use PMS';
+                    loginServiceInstance.loginMessage = 'Please log in or sign up to use PMS';
                 }
             }
 
