@@ -164,6 +164,29 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 		$scope.message = 'Welcome to PMS.';
 	});
 	
+	myApp.controller('WarehouseController', function($scope, $http) ) {
+		$scope.message = 'Look! I am a warehouse page.';
+		//TODO make this change for who's logged in
+		$scope.uid = 2
+		$scope.getWarehouse = function( uid ){
+			var url = SERVER_ADDRESS + "book/warehouse/?uid=" + uid;
+			var userData = null;
+			console.log("Making GET request to " + url);
+			$http.get( url )
+				.then(function(response) {
+					console.log("SUCCESS");
+					console.log(response);
+					$scope.bookList = JSON.parse(response.data)
+				}, function(response) {
+					console.log("FAILURE");
+					console.log(response);
+					console.log(userData);
+				});
+		};
+		//init page with this
+		$scope.getWarehouse($scope.uid)
+	});
+
 	myApp.controller('LoginController', function($scope, $http) {
 		$scope.message = 'Look! I am a Login page.';
 
