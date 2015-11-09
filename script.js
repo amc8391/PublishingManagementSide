@@ -247,9 +247,8 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
                         console.log("FAILURE");
                         console.log(response);
                         console.log(userData);
-                    }
-                    return loginServiceInstance.authenticated;
-                );
+                    });
+                return loginServiceInstance.authenticated;
             }
         };
         return loginServiceInstance;
