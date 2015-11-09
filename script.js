@@ -192,8 +192,9 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 
 	myApp.controller('LoginController', function($scope, $http, loginService) {
 		$scope.tryLogin = function(){
-            loginService.tryLogin($scope.username, $scope.password);
-            updateLoginMessage();
+            if(loginService.tryLogin($scope.username, $scope.password)){
+                updateLoginMessage();
+            }
         };
 
         var updateLoginMessage = function() {
