@@ -49,8 +49,8 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 			});
 	});
 
-	// create the controller and inject Angular's $scope
-	
+
+	// create the controllers and inject Angular's $scope
 
 	myApp.controller('BookController', function($scope, $http) {
 		var book = this;
@@ -171,7 +171,7 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 	myApp.controller('WarehouseController', function($scope, $http) {
 		$scope.message = 'Look! I am a warehouse page.';
 		//TODO make this change for who's logged in
-		$scope.uid = 2
+		$scope.uid = 1
 		$scope.getWarehouse = function( uid ){
 			var url = SERVER_ADDRESS + "book/warehouse?uid=" + uid;
 			var userData = null;
