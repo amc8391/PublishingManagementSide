@@ -191,63 +191,55 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 		$scope.getWarehouse($scope.uid)
 	});
 
-	myApp.controller('LoginController', function($scope, $http) {
+	myApp.controller('LoginController', function($scope, $http, loginService) {
 		$scope.message = 'Look! I am a Login page.';
 
 		$scope.tryLogin = function(){
-			//-1	fail case
-			//UID	pass case
-			var url = SERVER_ADDRESS + "login/attempt";
-			var userData = null;
-			console.log("Making POST request to " + url);
-			$http.post( url, {"username":$scope.username, "password":$scope.password}, null)
-				.then(function(response) {
-					console.log("SUCCESS");
-					console.log(response);
-					userData = JSON.parse(response.data);
-					if(userData.uid === -1){
-						$scope.message = 'Invalid Login!!';
-					}
-					console.log(userData);
-				}, function(response) {
-					console.log("FAILURE");
-					console.log(response);
-					console.log(userData);
-				});
-		};
+            loginService.tryLogin($scope.username, $scope.password);
+            updateLoginMessage();
+        };
+
+        var updateLoginMessage = function() {
+            if(loginService.authenticated){
+                $scope.message = 'Logged in as ' + loginService.currentUser.username;
+            } else {
+                $scope.message = 'Please log in or sign up to use PMS';
+            }
+        }
 	});
 
     myApp.factory('loginService', function($http){
-        var loginServiceInstance;
+        var loginServiceInstance = {
+            currentUser : null,
+            authenticated : false,
 
-        loginServiceInstance.tryLogin = function(username, password){
-			//-1	fail case
-			//UID	pass case
-			var url = SERVER_ADDRESS + "login/attempt";
-			var userData = null;
-			console.log("Making POST request to " + url);
-			$http.post( url, {"username":username, "password":password}, null)
-				.then(function(response) {
-					console.log("SUCCESS");
-					console.log(response);
-					userData = JSON.parse(response.data);
-					if(userData.uid === -1){
-						$scope.message = 'Invalid Login!!';
+            tryLogin : function(username, password){
+                //-1	fail case
+                //UID	pass case
+                var url = SERVER_ADDRESS + "login/attempt";
+                var userData = null;
+                console.log("Making POST request to " + url);
+                $http.post( url, {"username":username, "password":password}, null)
+                    .then(function(response) {
+                        console.log("SUCCESS");
+                        console.log(response);
+                        userData = JSON.parse(response.data);
+                        if(userData.uid === -1){
+                            $scope.message = 'Invalid Login!!';
+                            return false;
+                        } else {
+                            loginServiceInstance.authenticated = true;
+                            loginServiceInstance.currentUser = userData;
+                            return true;
+                        }
+                        console.log(userData);
+                    }, function(response) {
+                        console.log("FAILURE");
+                        console.log(response);
+                        console.log(userData);
                         return false;
-					} else {
-                        return true;
-                    }
-					console.log(userData);
-				}, function(response) {
-					console.log("FAILURE");
-					console.log(response);
-					console.log(userData);
-                    return false;
-				});
-		};
-
-        loginServiceInstance.currentUser = null;
-        loginServiceInstance.authenticated = false;
-
+                    });
+            }
+        };
         return loginServiceInstance;
     })
