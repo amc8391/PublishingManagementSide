@@ -2,7 +2,6 @@
 	<h1>Warehouse Page</h1>
 
 	<p>{{ message }}</p>
-	{{bookList}}
     <table class="table table-striped">
       <thead>
         <tr>
@@ -15,12 +14,11 @@
           <th>Price</th>
         </tr>
       </thead>
-      <tbody ng-repeat="book in $scope.bookList">
-        <tr>
+      <tbody>
+        <tr ng-repeat="book in bookList">
           <th scope="row">{{book.title}}</th>
           <td>{{book.isbn}}</td>
           <td>{{book.author}}</td>
-          <td>{{book.isbn}}</td>
           <td>{{book.rating}}</td>
           <td>{{book.genre}}</td>
           <td>{{book.count}}</td>
