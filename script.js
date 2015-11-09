@@ -32,6 +32,10 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 				templateUrl : 'Customer.html',
 				controller  : 'customerController'
 			}).
+            when('/warehouse', {
+                templateUrl : 'WarehouseView.html',
+                controller  : 'WarehouseController'
+            }).
 			when('/404',{
 				templateUrl : '404.html',
 				controller  : 'NotFoundController'
@@ -164,7 +168,7 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 		$scope.message = 'Welcome to PMS.';
 	});
 	
-	myApp.controller('WarehouseController', function($scope, $http) ) {
+	myApp.controller('WarehouseController', function($scope, $http) {
 		$scope.message = 'Look! I am a warehouse page.';
 		//TODO make this change for who's logged in
 		$scope.uid = 2
