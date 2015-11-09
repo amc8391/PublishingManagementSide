@@ -168,12 +168,11 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 		$scope.message = 'Welcome to PMS.';
 	});
 	
-	myApp.controller('WarehouseController', function($scope, $http) {
+	myApp.controller('WarehouseController', function($scope, $http, loginService) {
 		$scope.message = 'Look! I am a warehouse page.';
 		//TODO make this change for who's logged in
-		$scope.uid = 1
 		$scope.getWarehouse = function( uid ){
-			var url = SERVER_ADDRESS + "book/warehouse?uid=" + uid;
+			var url = SERVER_ADDRESS + "book/warehouse?uid=" + loginService.currentUser.uid;
 			var userData = null;
 			console.log("Making GET request to " + url);
 			$http.get( url )
