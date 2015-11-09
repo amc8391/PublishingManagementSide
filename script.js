@@ -191,8 +191,6 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 	});
 
 	myApp.controller('LoginController', function($scope, $http, loginService) {
-		$scope.message = 'Look! I am a Login page.';
-
 		$scope.tryLogin = function(){
             loginService.tryLogin($scope.username, $scope.password);
             updateLoginMessage();
@@ -205,12 +203,22 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
                 $scope.message = 'Please log in or sign up to use PMS';
             }
         }
+
+        updateLoginMessage();
 	});
 
     myApp.factory('loginService', function($http){
         var loginServiceInstance = {
             currentUser : null,
             authenticated : false,
+
+//            navbarText : function(){
+//                if(loginServiceInstance.authenticated){
+//                    return 'Please Log In';
+//                } else {
+//                    return 'Logged in as ' + currentUser.username;
+//                }
+//            },
 
             tryLogin : function(username, password){
                 //-1	fail case
@@ -222,9 +230,8 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
                     .then(function(response) {
                         console.log("SUCCESS");
                         console.log(response);
-                        userData = JSON.parse(response.data);
+                        userData = response.data;
                         if(userData.uid === -1){
-                            $scope.message = 'Invalid Login!!';
                             return false;
                         } else {
                             loginServiceInstance.authenticated = true;
