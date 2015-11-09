@@ -173,7 +173,7 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 		//TODO make this change for who's logged in
 		$scope.uid = 2
 		$scope.getWarehouse = function( uid ){
-			var url = SERVER_ADDRESS + "book/warehouse/?uid=" + uid;
+			var url = SERVER_ADDRESS + "book/warehouse?uid=" + uid;
 			var userData = null;
 			console.log("Making GET request to " + url);
 			$http.get( url )
