@@ -3,4 +3,29 @@
 
 	<p>{{ message }}</p>
 	{{bookList}}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>ISBN</th>
+          <th>Author</th>
+          <th>Rating</th>
+          <th>Genre</th>
+          <th>Count</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="book in $scope.bookList">
+        <tr>
+          <th scope="row">{{book.title}}</th>
+          <td>{{book.isbn}}</td>
+          <td>{{book.author}}</td>
+          <td>{{book.isbn}}</td>
+          <td>{{book.rating}}</td>
+          <td>{{book.genre}}</td>
+          <td>{{book.count}}</td>
+          <td>{{book.price}}</td>
+        </tr>
+      </tbody>
+    </table>
 </div>

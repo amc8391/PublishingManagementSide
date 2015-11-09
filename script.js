@@ -204,9 +204,9 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 				.then(function(response) {
 					console.log("SUCCESS");
 					console.log(response);
-					userData = JSON.parse(response.data)
+					userData = JSON.parse(response.data);
 					if(userData.uid === -1){
-						$scope.message = 'Invalid Login!!'
+						$scope.message = 'Invalid Login!!';
 					}
 					console.log(userData);
 				}, function(response) {
@@ -217,3 +217,37 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 		};
 	});
 
+    myApp.factory('loginService', function($http){
+        var loginServiceInstance;
+
+        loginServiceInstance.tryLogin = function(username, password){
+			//-1	fail case
+			//UID	pass case
+			var url = SERVER_ADDRESS + "login/attempt";
+			var userData = null;
+			console.log("Making POST request to " + url);
+			$http.post( url, {"username":username, "password":password}, null)
+				.then(function(response) {
+					console.log("SUCCESS");
+					console.log(response);
+					userData = JSON.parse(response.data);
+					if(userData.uid === -1){
+						$scope.message = 'Invalid Login!!';
+                        return false;
+					} else {
+                        return true;
+                    }
+					console.log(userData);
+				}, function(response) {
+					console.log("FAILURE");
+					console.log(response);
+					console.log(userData);
+                    return false;
+				});
+		};
+
+        loginServiceInstance.currentUser = null;
+        loginServiceInstance.authenticated = false;
+
+        return loginServiceInstance;
+    })
