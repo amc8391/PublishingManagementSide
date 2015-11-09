@@ -194,6 +194,9 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 		$scope.tryLogin = function(){
             if(loginService.tryLogin($scope.username, $scope.password)){
                 updateLoginMessage();
+            } else {
+                //To avoid async issues
+                updateLoginMessage();
             }
         };
 
@@ -241,6 +244,8 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
                         }
                         console.log(userData);
                     }, function(response) {
+                        loginServiceInstance.authenticated = false;
+                        loginServiceInstance.currentUser = null;
                         console.log("FAILURE");
                         console.log(response);
                         console.log(userData);
