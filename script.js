@@ -236,11 +236,9 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
                         console.log(response);
                         userData = response.data;
                         if(userData.uid === -1){
-                            return false;
                         } else {
                             loginServiceInstance.authenticated = true;
                             loginServiceInstance.currentUser = userData;
-                            return true;
                         }
                         console.log(userData);
                     }, function(response) {
@@ -249,8 +247,9 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
                         console.log("FAILURE");
                         console.log(response);
                         console.log(userData);
-                        return false;
-                    });
+                    }
+                    return loginServiceInstance.authenticated;
+                );
             }
         };
         return loginServiceInstance;
