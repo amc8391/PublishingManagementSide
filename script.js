@@ -180,7 +180,7 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 				.then(function(response) {
 					console.log("SUCCESS");
 					console.log(response);
-					$scope.bookList = JSON.parse(response.data)
+					$scope.bookList = JSON.parse(response.data);
 				}, function(response) {
 					console.log("FAILURE");
 					console.log(response);
