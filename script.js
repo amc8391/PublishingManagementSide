@@ -195,6 +195,7 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
             loginService.tryLogin($scope.username, $scope.password);
             $scope.message = loginService.loginMessage;
         };
+        $scope.loginService = loginService;
         $scope.message = loginService.loginMessage;
 	});
 
