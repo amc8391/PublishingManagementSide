@@ -193,16 +193,16 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 	myApp.controller('LoginController', function($scope, $http, loginService) {
 		$scope.tryLogin = function(){
             loginService.tryLogin($scope.username, $scope.password);
-            $scope.message = loginService.loginMessage();
+            $scope.message = loginService.loginMessage;
         };
-        $scope.message = loginService.loginMessage();
+        $scope.message = loginService.loginMessage;
 	});
 
     myApp.factory('loginService', function($http){
         var loginServiceInstance = {
             currentUser : null,
             authenticated : false,
-
+            loginMessage : 'Please log in or sign up to use PMS',
 //            navbarText : function(){
 //                if(loginServiceInstance.authenticated){
 //                    return 'Please Log In';
@@ -226,24 +226,27 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
                         } else {
                             loginServiceInstance.authenticated = true;
                             loginServiceInstance.currentUser = userData;
+                            loginServiceInstance.updateLoginMessage();
                         }
                         console.log(userData);
                     }, function(response) {
                         loginServiceInstance.authenticated = false;
                         loginServiceInstance.currentUser = null;
+                        loginServiceInstance.updateLoginMessage();
                         console.log("FAILURE");
                         console.log(response);
                         console.log(userData);
                     });
             },
 
-            loginMessage : function(){
+            updateLoginMessage : function(){
                 if(loginServiceInstance.authenticated){
                     return message = 'Logged in as ' + loginServiceInstance.currentUser.username;
                 } else {
                     return message = 'Please log in or sign up to use PMS';
                 }
             }
+
         };
         return loginServiceInstance;
     })
