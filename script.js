@@ -52,7 +52,7 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 
 	// create the controllers and inject Angular's $scope
 
-	myApp.controller('BookController', function($scope, $http) {
+	myApp.controller('BookController', function($scope, $http, loginService) {
 		var book = this;
 		//to be eliminated once I figure out how to do this correctly
 		book.id = "";
@@ -66,17 +66,6 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 
 		book.getBookInfo = function (lookupID) {
 			console.log("getBookInfo called");
-			//        var req = {
-			//            method: 'GET',
-			//            url: "http://ec2-52-23-163-68.compute-1.amazonaws.com:8080/testingPublishing/service/book/getBook?bookID="+searchedID,
-			//            headers: {
-			//                'Accept': 'application/json',
-			//                'Upgrade-Insecure-Requests' : 1,
-			//                'Access-Control-Allow-Credentials': true,
-			//                'Access-Control-Allow-Origin' : 'http://ec2-52-23-163-68.compute-1.amazonaws.com' //VERY BAD
-			//            }
-			//        }
-			//        var info = JSON.parse($http(req).data);
 			$http.get( SERVER_ADDRESS + "book/getBook?bookID=" + lookupID)
 				.then(function(response) {
 					console.log("SUCCESS");
@@ -169,9 +158,9 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 	});
 	
 	myApp.controller('WarehouseController', function($scope, $http, loginService) {
-		$scope.message = 'Look! I am a warehouse page.';
-		//TODO make this change for who's logged in
-		$scope.getWarehouse = function( uid ){
+		if(loginService.authenticated){
+			$scope.message = 'Welcome, ' + loginService.currentUser.uid;
+			$scope.getWarehouse = function( uid ){
 			var url = SERVER_ADDRESS + "book/warehouse?uid=" + loginService.currentUser.uid;
 			var userData = null;
 			console.log("Making GET request to " + url);
@@ -185,7 +174,14 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 					console.log(response);
 					console.log(userData);
 				});
-		};
+			};
+
+		}else{
+			$scope.message = 'Please log in to PMS to use the Warehouse feature';
+			$scope.getWarehouse = function( uid ){
+				$scope.bookList = null;
+			};
+		}
 		//init page with this
 		$scope.getWarehouse($scope.uid)
 	});
