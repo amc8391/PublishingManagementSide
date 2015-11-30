@@ -63,6 +63,7 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 		book.count = "";
 		book.price = "";
 		book.rating = "";
+		$scope.message = "Book Operations";
 
 		book.getBookInfo = function (lookupID) {
 			console.log("getBookInfo called");
@@ -100,30 +101,40 @@ var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/"
 		};
 
 		book.addBook = function () {
-			var url = SERVER_ADDRESS + "book/addBook?isbn=" + book.isbn + "&authorID=" + book.authorID + "&title=" + book.title + "&count=" + book.count + "&price=" + book.price + "&genre=" + book.genre;
-			
-			$http.get( url )
-				.then(function(response) {
-					console.log("SUCCESS");
-					console.log(response);
-				}, function(response) {
-					console.log("FAILURE");
-					console.log(response);
-				});
+			if (loginService.authenticated){
+				var url = SERVER_ADDRESS + "book/addBook?isbn=" + book.isbn + "&authorID=" + book.authorID + "&title=" + book.title + "&count=" + book.count + "&price=" + book.price + "&genre=" + book.genre;
+
+				$http.get( url )
+					.then(function(response) {
+						$scope.message = "Successfully added " + book.title;
+						console.log("SUCCESS");
+						console.log(response);
+					}, function(response) {
+						$scope.message = "Failure to add " + book.title;
+						console.log("FAILURE");
+						console.log(response);
+					});
+			} else {
+				$scope.message = "Please log in before adding a book"
+				console.log("must log in first")
+			}
 		};
 
 		book.updateCount = function (){
+			if (loginService.authenticated){
+				var url = SERVER_ADDRESS + "book/updateCount?bookID=" + book.id + "&count=" + book.count;
 
-			var url = SERVER_ADDRESS + "book/updateCount?bookID=" + book.id + "&count=" + book.count;
-			
-			$http.get( url )
-				.then(function(response) {
-					console.log("SUCCESS");
-					console.log(response);
-				}, function(response) {
-					console.log("FAILURE");
-					console.log(response);
-				});
+				$http.get( url )
+					.then(function(response) {
+						console.log("SUCCESS");
+						console.log(response);
+					}, function(response) {
+						console.log("FAILURE");
+						console.log(response);
+					});
+			} else {
+				$scope.message = "Please log in before attempting to update a book's information"
+			}
 		};
 	});
 
