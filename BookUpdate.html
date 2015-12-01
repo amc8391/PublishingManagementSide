@@ -1,32 +1,44 @@
-    <div class="jumbotron text-center" ng-controller="BookController as book">
-        <h2>Update Book</h2>
-		<h3>{{message}}</h3>
-        <table align="center">
-            <tr>
-                <td>ID</td>
-                <td><input type="text" ng-model="book.id"></input></td>
-            </tr>
-            <tr>
-                <td>Author</td>
-                <td><input type="text" ng-model="book.authorID"></input></td>
-            </tr>
-            <tr>
-                <td>Title</td>
-                <td><input type="text" ng-model="book.title"></input></td>
-            </tr>
-            <tr>
-                <td>Count</td>
-                <td><input type="text" ng-model="book.count"></input></td>
-            </tr>
-            <tr>
-                <td>Price</td>
-                <td><input type="text" ng-model="book.price"></input></td>
-            </tr>
-            <tr>
-                <td>Genre</td>
-                <td><input type="text" ng-model="book.genre"></input></td>
-            </tr>
-        </table>
-	<button ng-click="book.getBookInfo(book.id)">Get book info</button>
-	<button type="button" ng-click="book.updateCount()">Update Count</button>
-    </div>
+<div class="jumbotron text-center" ng-controller="BookController as book">
+    <h2>Update Book</h2>
+    <h3>{{message}}</h3>
+    <table align="center">
+        <tr>
+            <td>ID</td>
+            <td>
+                <input type="text" ng-model="book.id"></input>
+            </td>
+        </tr>
+        <tr>
+            <td>Author</td>
+            <td>
+                <input type="text" ng-model="book.authorID"></input>
+            </td>
+        </tr>
+        <tr>
+            <td>Title</td>
+            <td>
+                <input type="text" ng-model="book.title"></input>
+            </td>
+        </tr>
+        <tr>
+            <td>Count</td>
+            <td>
+                <input type="text" ng-model="book.count"></input>
+            </td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td>
+                <input type="text" ng-model="book.price"></input>
+            </td>
+        </tr>
+        <tr>
+            <td>Genre</td>
+            <td>
+                <input type="text" ng-model="book.genre"></input>
+            </td>
+        </tr>
+    </table>
+    <button ng-click="book.getBookInfo(book.id)">Get book info</button>
+    <button type="button" ng-click="book.updateCount()">Update Count</button>
+</div>

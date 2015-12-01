@@ -1,56 +1,52 @@
 <!DOCTYPE html>
-
 <!-- define angular app -->
 <html ng-app="myApp">
 
 <head>
-  <!-- SCROLLS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
-  <meta name="viewport" content="width=device-width, initial-scale=1 height=device-height">
-  <!-- SPELLS -->
-  <script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-  <script type="text/javascript" src="script.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
-  <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.js"></script>
-
-
-  
+    <!-- SCROLLS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 height=device-height">
+    <!-- SPELLS -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.js"></script>
 </head>
-
 <!-- define angular controller -->
-<body ng-controller="indexController">
 
-  <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="nav navbar-nav navbar-left">
-        <div ng-controller="LoginController"><a href="#login">{{ loginService.loginMessage }}</a></div>
+<body ng-controller="indexController">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="nav navbar-nav navbar-left">
+                <div ng-controller="LoginController"><a href="#login">{{ loginService.loginMessage }}</a></div>
+            </div>
+            <div>
+                <ul class="nav navbar-nav navbar-right">
+                    <a class="navbar-brand" href="#"><i class="fa fa-home"></i>Home</a>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle navbar-brand" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Books <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="navbar-brand" href="#book"><i class="fa fa-book"></i> View Books</a></li>
+                            <li><a class="navbar-brand" href="#bookadd"><i class="fa fa-book"></i> Add Books</a></li>
+                            <li><a class="navbar-brand" href="#bookupdate"><i class="fa fa-book"></i> Update Books</a></li>
+                        </ul>
+                    </li>
+                    <a class="navbar-brand" href="#warehouse"><i class="fa fa-home"></i> My Warehouse</a>
+                    <form class="navbar-brand" target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                        <input type="hidden" name="cmd" value="_cart">
+                        <input type="hidden" name="business" value="tosh0204@gmail.com">
+                        <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_viewcart_LG.gif" border="0" name="submit" alt="">
+                        <img alt="" border="0" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
+                        <input type="hidden" name="display" value="1">
+                    </form>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div id="main" style="text-align:center">
+        <div ng-view></div>
     </div>
-    <div>
-      <ul class="nav navbar-nav navbar-right">
-	<a class="navbar-brand" href="#"><i class="fa fa-home"></i>Home</a>
-		<li class="dropdown">
-          <a class="dropdown-toggle navbar-brand" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Books <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a class="navbar-brand" href="#book"><i class="fa fa-book"></i> View Books</a></li>
-            <li><a class="navbar-brand" href="#bookadd"><i class="fa fa-book"></i> Add Books</a></li>
-            <li><a class="navbar-brand" href="#bookupdate"><i class="fa fa-book"></i> Update Books</a></li>
-          </ul>
-        </li>
-        <a class="navbar-brand" href="#warehouse"><i class="fa fa-home"></i> My Warehouse</a>
-		<form class="navbar-brand" target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
-		<input type="hidden" name="cmd" value="_cart">
-		<input type="hidden" name="business" value="tosh0204@gmail.com">
-		<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_viewcart_LG.gif" border="0" name="submit" alt="">
-		<img alt="" border="0" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
-		<input type="hidden" name="display" value="1">
-		</form>
-      </ul>
-    </div>
-  </div>
-</nav>
-  <div id="main" style="text-align:center">
-    <div ng-view></div>
-  </div>
 </body>
+
 </html>
