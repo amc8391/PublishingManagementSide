@@ -15,13 +15,13 @@
         </thead>
         <tbody>
             <tr ng-repeat="book in bookList">
-                <th scope="row"><a href="#book?bookID={{book.id}}">{{book.title}}</a></th>
-                <td>{{book.isbn}}</td>
-                <td>{{book.author}}</td>
-                <td>{{book.rating}}</td>
-                <td>{{book.genre}}</td>
-                <td>{{book.count}}</td>
-                <td>{{book.price | currency}}</td>
+                <th scope="row" align="left"><a href="#book?bookID={{book.id}}">{{book.title}}</a></th>
+                <td align="left">{{book.isbn}}</td>
+                <td align="left">{{book.author}}</td>
+                <td align="left">{{book.rating}}</td>
+                <td align="left">{{book.genre}}</td>
+                <td align="left">{{book.count}}</td>
+                <td align="left">{{book.price | currency}}</td>
             </tr>
         </tbody>
     </table>

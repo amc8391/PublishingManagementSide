@@ -3,7 +3,7 @@
 	<h3>{{message}}</h3>
     <ul>
 		<li ng-repeat="alert in alertList">
-			{{alert.message}}
+			<a href="#book?bookID={{alert.id}}">{{alert.message}}</a>
 		</li>
 	</ul>
 </div>
