@@ -9,43 +9,47 @@ myApp.config(function ($routeProvider) {
     $routeProvider.
         // route for the home page
         when('/', {
-            templateUrl: 'Home.html',
-            controller: 'HomeController'
+            templateUrl:	'Home.html',
+            controller:		'HomeController'
         }).
 		when('/book', {
-			templateUrl: 'BookView.html',
-			controller: 'BookController'
+			templateUrl:	'BookView.html',
+			controller:		'BookController'
 		}).
 		when('/bookadd', {
-			templateUrl: 'BookAdd.html',
-			controller: 'BookController'
+			templateUrl:	'BookAdd.html',
+			controller:		'BookController'
 		}).
 		when('/bookupdate', {
-			templateUrl: 'BookUpdate.html',
-			controller: 'BookController'
+			templateUrl:	'BookUpdate.html',
+			controller:		'BookController'
 		}).
 		when('/Buy', {
-			templateUrl: 'Buy.html',
-			controller: 'buyController'
+			templateUrl:	'Buy.html',
+			controller:		'buyController'
 		}).
 		when('/customer', {
-			templateUrl: 'Customer.html',
-			controller: 'customerController'
+			templateUrl:	'Customer.html',
+			controller:		'customerController'
 		}).
 		when('/warehouse', {
-			templateUrl: 'WarehouseView.html',
-			controller: 'WarehouseController'
+			templateUrl:	'WarehouseView.html',
+			controller:		'WarehouseController'
 		}).
 		when('/404', {
-			templateUrl: '404.html',
-			controller: 'NotFoundController'
+			templateUrl:	'404.html',
+			controller:		'NotFoundController'
+		}).
+		when('/uspsTest', {
+			templateUrl:	'USPSTests.html',
+			controller:		'USPSTestsController'
 		}).
 		when('/login', {
-			templateUrl: 'login.html',
-			controller: 'LoginController'
+			templateUrl:	'login.html',
+			controller:		'LoginController'
 		}).
 		otherwise({
-			redirectTo: '/404'
+			redirectTo:		'/404'
 		});
 });
 
@@ -63,6 +67,8 @@ myApp.controller('BookController', function ($scope, $http, loginService) {
     book.count = "";
     book.price = "";
     book.rating = "";
+	book.genre = "";
+	book.weight = 0.0;
     $scope.message = "Book Operations";
 
     book.getBookInfo = function (lookupID) {
@@ -77,11 +83,11 @@ myApp.controller('BookController', function ($scope, $http, loginService) {
                 book.isbn = info.isbn;
                 book.authorID = info.authorID;
                 book.author = info.author;
-                book.title = info.title;
                 book.count = info.count;
                 book.price = info.price;
                 book.rating = info.rating;
                 book.genre = info.genre;
+				book.weight = info.weight;
                 console.log(book);
             }, function (response) {
                 console.log("FAILURE");
@@ -204,6 +210,32 @@ myApp.controller('LoginController', function ($scope, $http, loginService) {
     };
     $scope.loginService = loginService;
     $scope.message = loginService.loginMessage;
+});
+
+myApp.controller('USPSTestsController', function ($scope, $http, loginService) {
+	var uspsApiUserID = "714PERSO4882";
+	UspsAPI.setApiId(uspsApiUserID)
+
+	this.getEstimate = function () {
+		var requestConfig = UspsAPI.RateCalculator.getRequestConfig($scope.weight, $scope.zipOrig, $scope.zipDest);
+		$http(requestConfig).then(function (response) {
+			console.log("SUCCESS");
+			console.log(response);
+			$scope.status = "SUCCESS";
+			$scope.response = response;
+		}, function (response) {
+			console.log("FAILURE");
+			console.log(response);
+			$scope.response = "FAILURE";
+		});
+	};
+
+	$scope.message = "Hey there; test out some USPS stuff";
+
+	$scope.weight = 5.0;
+	$scope.zipOrig = '07047';
+	$scope.zipDest = '14623';
+	this.getEstimate();
 });
 
 myApp.factory('loginService', function ($http) {
