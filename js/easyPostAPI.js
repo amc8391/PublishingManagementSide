@@ -1,11 +1,14 @@
-EasyPostAPI.API_KEY = "AamsQ2dRs4aBuMwgewqPaA";
-
 //https://github.com/vickyteke/easypost_parse/blob/master/easypostapi.js
 var EasyPostRequestor = function (myApiKey) {
 	this.apiKey = myApiKey || apiKey;
 	this.queryParams = {};
 
 };
+
+EasyPostRequestor.prototype.request = function () {
+
+};
+
 EasyPostRequestor.prototype.request = function(method, path, params, callback, parent) {
 	var promise_ = new Parse.Promise();
 	delete params.apiKey;
@@ -66,14 +69,6 @@ EasyPostRequestor.prototype.request = function(method, path, params, callback, p
 	});
 
 	return promise_;
-
-	/*
-	var req = https.request(request_options);
-	// var req = http.request(request_options);
-	this.responseListener(req, callback, parent);
-	req.write(requestData);
-	req.end();
-	*/
 }
 EasyPostRequestor.prototype.encodeParams = function(params, prefix) {
 	if (typeof params !== 'object') {

@@ -40,9 +40,9 @@ myApp.config(function ($routeProvider) {
 			templateUrl:	'404.html',
 			controller:		'NotFoundController'
 		}).
-		when('/uspsTest', {
-			templateUrl:	'USPSTests.html',
-			controller:		'USPSTestsController'
+		when('/alerts', {
+			templateUrl:	'Alerts.html',
+			controller:		'AlertsController'
 		}).
 		when('/login', {
 			templateUrl:	'login.html',
@@ -212,31 +212,54 @@ myApp.controller('LoginController', function ($scope, $http, loginService) {
     $scope.message = loginService.loginMessage;
 });
 
-myApp.controller('USPSTestsController', function ($scope, $http, loginService) {
-	var uspsApiUserID = "714PERSO4882";
-	UspsAPI.setApiId(uspsApiUserID)
+myApp.controller('EasyPostTestsController', function ($scope, $http, loginService) {
+	var easyPostApiKey = "AamsQ2dRs4aBuMwgewqPaA";
+	var epr = EasyPostRequestor(easyPostApiKey);
 
-	this.getEstimate = function () {
-		var requestConfig = UspsAPI.RateCalculator.getRequestConfig($scope.weight, $scope.zipOrig, $scope.zipDest);
-		$http(requestConfig).then(function (response) {
-			console.log("SUCCESS");
-			console.log(response);
-			$scope.status = "SUCCESS";
-			$scope.response = response;
-		}, function (response) {
-			console.log("FAILURE");
-			console.log(response);
-			$scope.response = "FAILURE";
-		});
-	};
-
-	$scope.message = "Hey there; test out some USPS stuff";
-
-	$scope.weight = 5.0;
-	$scope.zipOrig = '07047';
-	$scope.zipDest = '14623';
-	this.getEstimate();
 });
+
+myApp.controller('AlertsController', function ($scope, $http, loginService) {
+	if(loginService.authenticated){
+		var url = SERVER_ADDRESS + "alerts/getAlerts?uid=" + loginService.currentUser.uid;
+		$http.get(url)
+			.then(function (response) {
+				console.log("SUCCESS");
+				console.log(response);
+				$scope.alertList = response.data;
+			}, function (response) {
+				console.log("FAILURE");
+				console.log(response);
+			});
+	} else {
+		$scope.message = "Please log in to view your alerts";
+	}
+});
+
+//myApp.controller('USPSTestsController', function ($scope, $http, loginService) {
+//	var uspsApiUserID = "714PERSO4882";
+//	UspsAPI.setApiId(uspsApiUserID)
+//
+//	this.getEstimate = function () {
+//		var requestConfig = UspsAPI.RateCalculator.getRequestConfig($scope.weight, $scope.zipOrig, $scope.zipDest);
+//		$http(requestConfig).then(function (response) {
+//			console.log("SUCCESS");
+//			console.log(response);
+//			$scope.status = "SUCCESS";
+//			$scope.response = response;
+//		}, function (response) {
+//			console.log("FAILURE");
+//			console.log(response);
+//			$scope.response = "FAILURE";
+//		});
+//	};
+//
+//	$scope.message = "Hey there; test out some USPS stuff";
+//
+//	$scope.weight = 5.0;
+//	$scope.zipOrig = '07047';
+//	$scope.zipDest = '14623';
+//	this.getEstimate();
+//});
 
 myApp.factory('loginService', function ($http) {
     var loginServiceInstance = {
