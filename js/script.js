@@ -29,10 +29,6 @@ myApp.config(function ($routeProvider) {
 			templateUrl:	'html/BookUpdate.html',
 			controller:		'BookController'
 		}).
-		when('/Buy', {
-			templateUrl:	'html/Buy.html',
-			controller:		'buyController'
-		}).
 		when('/warehouse', {
 			templateUrl:	'html/WarehouseView.html',
 			controller:		'WarehouseController'
@@ -147,19 +143,6 @@ myApp.controller('BookController', function ($scope, $http, $routeParams, loginS
 	if ($routeParams.bookID !== undefined) {
 		book.getBookInfo($routeParams.bookID);
 	}
-});
-
-myApp.controller('buyController', function ($scope) {
-    var book = this;
-    //to be eliminated once I figure out how to do this correctly
-    book.id = "";
-    book.isbn = "";
-    book.authorID = "";
-    book.author = "";
-    book.title = "";
-    book.count = "";
-    book.price = "";
-    book.rating = "";
 });
 
 myApp.controller('indexController', function ($scope) {
