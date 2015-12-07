@@ -15,7 +15,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="book in bookList">
-                <th scope="row">{{book.title}}</th>
+                <th scope="row"><a href="books?id=" + book.id>{{book.title}}</a></th>
                 <td>{{book.isbn}}</td>
                 <td>{{book.author}}</td>
                 <td>{{book.rating}}</td>

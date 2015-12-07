@@ -5,19 +5,19 @@
         <tr>
             <td>ID</td>
             <td>
-                <input type="text" ng-model="book.id"></input>
+				{{book.id}}
             </td>
         </tr>
         <tr>
             <td>Author</td>
             <td>
-                <input type="text" ng-model="book.authorID"></input>
+				{{book.author}}
             </td>
         </tr>
         <tr>
             <td>Title</td>
             <td>
-                <input type="text" ng-model="book.title"></input>
+				{{book.title}}
             </td>
         </tr>
         <tr>
@@ -29,16 +29,17 @@
         <tr>
             <td>Price</td>
             <td>
-                <input type="text" ng-model="book.price"></input>
+				{{book.price}}
             </td>
         </tr>
         <tr>
             <td>Genre</td>
             <td>
-                <input type="text" ng-model="book.genre"></input>
+				{{book.genre}}
             </td>
         </tr>
     </table>
-    <button ng-click="book.getBookInfo(book.id)">Get book info</button>
+    <input type="text" ng-model="lookupBook.id"></input>
+    <button ng-click="book.getBookInfo(lookupBook.id)">Get book info</button>
     <button type="button" ng-click="book.updateCount()">Update Count</button>
 </div>

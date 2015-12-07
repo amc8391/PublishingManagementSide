@@ -1,3 +1,4 @@
+/*jslint browser: true, devel: true, bitwise: false, debug: false, eqeq: false, forin: true, unparam: false, sloppy: true, vars: true*/
 var SERVER_ADDRESS = "http://52.25.95.1:8080/HttpServe/api/service/";
     // create the module and name it bookApp
 var myApp = angular.module('myApp', ['ngRoute']);
@@ -9,43 +10,47 @@ myApp.config(function ($routeProvider) {
     $routeProvider.
         // route for the home page
         when('/', {
-            templateUrl:	'Home.html',
+            templateUrl:	'html/Home.html',
             controller:		'HomeController'
         }).
 		when('/book', {
-			templateUrl:	'BookView.html',
+			templateUrl:	'html/BookView.html',
 			controller:		'BookController'
 		}).
 		when('/bookadd', {
-			templateUrl:	'BookAdd.html',
+			templateUrl:	'html/BookAdd.html',
 			controller:		'BookController'
 		}).
 		when('/bookupdate', {
-			templateUrl:	'BookUpdate.html',
+			templateUrl:	'html/BookUpdate.html',
 			controller:		'BookController'
 		}).
 		when('/Buy', {
-			templateUrl:	'Buy.html',
+			templateUrl:	'html/Buy.html',
 			controller:		'buyController'
 		}).
 		when('/customer', {
-			templateUrl:	'Customer.html',
+			templateUrl:	'html/Customer.html',
 			controller:		'customerController'
 		}).
 		when('/warehouse', {
-			templateUrl:	'WarehouseView.html',
+			templateUrl:	'html/WarehouseView.html',
 			controller:		'WarehouseController'
 		}).
 		when('/404', {
-			templateUrl:	'404.html',
+			templateUrl:	'html/404.html',
 			controller:		'NotFoundController'
 		}).
 		when('/alerts', {
-			templateUrl:	'Alerts.html',
+			templateUrl:	'html/Alerts.html',
 			controller:		'AlertsController'
 		}).
+		when('/easyposttests', {
+			templateUrl:	'html/EasyPostTests',
+			controller:		'EasyPostTestsController'
+		}).
 		when('/login', {
-			templateUrl:	'login.html',
+			templateUrl:	'html/login.html',
 			controller:		'LoginController'
 		}).
 		otherwise({
@@ -72,11 +77,8 @@ myApp.controller('BookController', function ($scope, $http, loginService) {
     $scope.message = "Book Operations";
 
     book.getBookInfo = function (lookupID) {
-        console.log("getBookInfo called");
         $http.get(SERVER_ADDRESS + "book/getBook?bookID=" + lookupID)
             .then(function (response) {
-                console.log("SUCCESS");
-                console.log(response.data);
                 var info = response.data;
                 book.id = info.id;
                 book.title = info.title;
@@ -88,10 +90,7 @@ myApp.controller('BookController', function ($scope, $http, loginService) {
                 book.rating = info.rating;
                 book.genre = info.genre;
 				book.weight = info.weight;
-                console.log(book);
             }, function (response) {
-                console.log("FAILURE");
-                console.log(response);
                 book.id = -1;
                 book.title = "Error: Could not find book";
                 book.isbn = "";
@@ -113,16 +112,11 @@ myApp.controller('BookController', function ($scope, $http, loginService) {
             $http.get(url)
                 .then(function (response) {
                     $scope.message = "Successfully added " + book.title;
-                    console.log("SUCCESS");
-                    console.log(response);
                 }, function (response) {
                     $scope.message = "Failure to add " + book.title;
-                    console.log("FAILURE");
-                    console.log(response);
                 });
         } else {
             $scope.message = "Please log in before adding a book";
-            console.log("must log in first");
         }
     };
 
@@ -209,17 +203,29 @@ myApp.controller('LoginController', function ($scope, $http, loginService) {
         $scope.message = loginService.loginMessage;
     };
     $scope.loginService = loginService;
+	$scope.loginButton = '<button type="button" class="btn btn-danger">' + $scope.message + '</button>';
     $scope.message = loginService.loginMessage;
 });
 
-myApp.controller('EasyPostTestsController', function ($scope, $http, loginService) {
+myApp.controller('EasyPostTestsController', function ($scope, $http, $filter, loginService, pmsPrototypes) {
 	var easyPostApiKey = "AamsQ2dRs4aBuMwgewqPaA";
-	var epr = EasyPostRequestor(easyPostApiKey);
+	var epr = new EasyPostRequestor(easyPostApiKey);
+	$scope.message = "Welcome to the easy posts test page";
 
+	$scope.testPurchaseCreation = function () {
+		var dateFormat = "mm-dd-yyyy";
+		var EST = "-0500";
+		var dateString = $filter('date')(Date.now(), dateFormat, EST);
+		var testPurch = new pmsPrototypes.purchase(dateString, 5.00, 2, );
+	};
+
+	$scope.testShipmentCreation = function () {
+
+	};
 });
 
 myApp.controller('AlertsController', function ($scope, $http, loginService) {
-	if(loginService.authenticated){
+	if (loginService.authenticated) {
 		var url = SERVER_ADDRESS + "alerts/getAlerts?uid=" + loginService.currentUser.uid;
 		$http.get(url)
 			.then(function (response) {
@@ -235,72 +241,77 @@ myApp.controller('AlertsController', function ($scope, $http, loginService) {
 	}
 });
 
-//myApp.controller('USPSTestsController', function ($scope, $http, loginService) {
-//	var uspsApiUserID = "714PERSO4882";
-//	UspsAPI.setApiId(uspsApiUserID)
-//
-//	this.getEstimate = function () {
-//		var requestConfig = UspsAPI.RateCalculator.getRequestConfig($scope.weight, $scope.zipOrig, $scope.zipDest);
-//		$http(requestConfig).then(function (response) {
-//			console.log("SUCCESS");
-//			console.log(response);
-//			$scope.status = "SUCCESS";
-//			$scope.response = response;
-//		}, function (response) {
-//			console.log("FAILURE");
-//			console.log(response);
-//			$scope.response = "FAILURE";
-//		});
-//	};
-//
-//	$scope.message = "Hey there; test out some USPS stuff";
-//
-//	$scope.weight = 5.0;
-//	$scope.zipOrig = '07047';
-//	$scope.zipDest = '14623';
-//	this.getEstimate();
-//});
+myApp.factory('pmsPrototypes', function () {
+	var book = function (t, aID, invCount, p, rat, is, gen, userID, lbs) {
+		this.id = null;
+		this.title = t;
+		this.authorID = aID;
+		this.inventoryCount = invCount;
+		this.price = p;
+		this.rating = rat;
+		this.isbn = is;
+		this.genre = gen;
+		this.uid = userID;
+		this.Weight = lbs;
+	};
+	var author = function (n) {
+		this.id = null;
+		this.name = n;
+	};
+	var purchase = function (d, tot, customerID, bID, shipID, ppID) {
+		this.id = null;
+		this.date = d;
+		this.total = tot;
+		this.custID = customerID;
+		this.bookID = bID;
+		this.shipmentID = shipID;
+		this.paypalID = ppID;
+	};
+	var shipment = function (sd, dd, stat, purID, customerID, lbs, tID) {
+		this.id = null;
+		this.sendDate = sd;
+		this.status = stat;
+		this.purchaseID = purID;
+		this.custID = customerID;
+		this.weight = lbs;
+		this.trackingID = tID;
+	};
+	var user = function (uname, pass) {
+		this.id = null;
+		this.username = uname;
+		this.password = pass;
+	};
+	var alert = function (mess, bID) {
+		this.message = mess;
+		this.bookID = bID;
+	};
+});
 
 myApp.factory('loginService', function ($http) {
     var loginServiceInstance = {
-        currentUser: null,
-        authenticated: false,
-        loginMessage: 'Please log in or sign up to use PMS',
-        //            navbarText : function(){
-        //                if(loginServiceInstance.authenticated){
-        //                    return 'Please Log In';
-        //                } else {
-        //                    return 'Logged in as ' + currentUser.username;
-        //                }
-        //            },
-
-        tryLogin: function (username, password) {
+        currentUser : null,
+        authenticated : false,
+        loginMessage : 'Please log in to use PMS',
+        tryLogin : function (username, password) {
             //-1	fail case
             //UID	pass case
             var url = SERVER_ADDRESS + "login/attempt";
             var userData = null;
-            console.log("Making POST request to " + url);
             $http.post(url, {
 				"username": username,
 				"password": password
 			}, null)
                 .then(function (response) {
-                    console.log("SUCCESS");
-                    console.log(response);
                     userData = response.data;
                     if (userData.uid !== -1) {
                         loginServiceInstance.authenticated = true;
                         loginServiceInstance.currentUser = userData;
                         loginServiceInstance.updateLoginMessage();
                     }
-                    console.log(userData);
                 }, function (response) {
                     loginServiceInstance.authenticated = false;
                     loginServiceInstance.currentUser = null;
                     loginServiceInstance.updateLoginMessage();
-                    console.log("FAILURE");
-                    console.log(response);
-                    console.log(userData);
                 });
         },
 
