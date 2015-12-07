@@ -215,7 +215,7 @@ myApp.controller('EasyPostTestsController', function ($scope, $http, $filter, lo
 	$scope.message = "Welcome to the easy posts test page";
 
 	$scope.testPurchaseCreation = function () {
-		var dateFormat = "mm-dd-yyyy";
+		var dateFormat = "MM-dd-yyyy";
 		var EST = "-0500";
 		var dateString = $filter('date')(Date.now(), dateFormat, EST);
 		var testPurch = new pmsPrototypes.purchase(dateString, 12.50, 2, 2, null, "testPaypalID");
