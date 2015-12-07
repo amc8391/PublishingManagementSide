@@ -61,7 +61,7 @@ myApp.config(function ($routeProvider) {
 
 // create the controllers and inject Angular's $scope
 
-myApp.controller('BookController', function ($scope, $http, loginService) {
+myApp.controller('BookController', function ($scope, $http, loginService, pmsPrototypes) {
     var book = this;
     //to be eliminated once I figure out how to do this correctly
     book.id = "";
@@ -80,6 +80,8 @@ myApp.controller('BookController', function ($scope, $http, loginService) {
         $http.get(SERVER_ADDRESS + "book/getBook?bookID=" + lookupID)
             .then(function (response) {
                 var info = response.data;
+				b = new pmsPrototypes.book();
+
                 book.id = info.id;
                 book.title = info.title;
                 book.isbn = info.isbn;
@@ -216,7 +218,19 @@ myApp.controller('EasyPostTestsController', function ($scope, $http, $filter, lo
 		var dateFormat = "mm-dd-yyyy";
 		var EST = "-0500";
 		var dateString = $filter('date')(Date.now(), dateFormat, EST);
-		var testPurch = new pmsPrototypes.purchase(dateString, 5.00, 2, );
+		var testPurch = new pmsPrototypes.purchase(dateString, 12.50, 2, 2, null, "testPaypalID");
+		var url = SERVER_ADDRESS + "transaction/addPurchase";
+		$http({
+			'method' : 'POST',
+			'url' : url,
+			'data' : testPurch
+		}).then(function (response) {
+			console.log("SUCCESS");
+			console.log(response);
+		}, function (response) {
+			console.log("FAILURE");
+			console.log(response);
+		});
 	};
 
 	$scope.testShipmentCreation = function () {
