@@ -29,10 +29,6 @@ myApp.config(function ($routeProvider) {
 			templateUrl:	'html/Buy.html',
 			controller:		'buyController'
 		}).
-		when('/customer', {
-			templateUrl:	'html/Customer.html',
-			controller:		'customerController'
-		}).
 		when('/warehouse', {
 			templateUrl:	'html/WarehouseView.html',
 			controller:		'WarehouseController'
@@ -51,9 +47,9 @@ myApp.config(function ($routeProvider) {
 		}).
 		when('/login', {
 			templateUrl:	'html/LogIn.html',
-			controller:		'LogInController'
+			controller:		'LoginController'
 		}).
-		when('/signUp', {
+		when('/signup', {
 			templateUrl:	'html/SignUp.html',
 			controller:		'SignUpController'
 		}).
@@ -159,10 +155,6 @@ myApp.controller('buyController', function ($scope) {
     book.rating = "";
 });
 
-myApp.controller('customerController', function ($scope) {
-    $scope.message = 'Look! I am an about page.';
-});
-
 myApp.controller('indexController', function ($scope) {
     $scope.message = 'Look! I am the main page.';
 });
@@ -205,7 +197,7 @@ myApp.controller('WarehouseController', function ($scope, $http, loginService) {
     $scope.getWarehouse($scope.uid);
 });
 
-myApp.controller('LogInController', function ($scope, $http, loginService) {
+myApp.controller('LoginController', function ($scope, $http, loginService) {
     $scope.tryLogin = function () {
         loginService.tryLogin($scope.username, $scope.password);
         $scope.message = loginService.loginMessage;
@@ -216,30 +208,10 @@ myApp.controller('LogInController', function ($scope, $http, loginService) {
 });
 
 myApp.controller('SignUpController', function ($scope, $http, loginService) {
-	var signUp = function (uName, pass1, pass2) {
-		if (pass1 === pass2) {
-			var url = SERVER_ADDRESS + "login/attempt";
-			var userData = null;
-			$http.post(url, {
-				"username": uName,
-				"password": pass1
-			}, null)
-				.then(function (response) {
-					userData = response.data;
-					if (userData.uid !== -1) {
-						loginServiceInstance.authenticated = true;
-						loginServiceInstance.currentUser = userData;
-						loginServiceInstance.updateLoginMessage();
-					}
-				}, function (response) {
-					loginServiceInstance.authenticated = false;
-					loginServiceInstance.currentUser = null;
-					loginServiceInstance.updateLoginMessage();
-				});
-		} else {
-			$scope.message = "Please input a matching pair of passwords.";
-		}
-	};
+	$scope.loginService = loginService;
+	$scope.loginButton = '<button type="button" class="btn btn-danger">' + $scope.message + '</button>';
+	$scope.message = "Please input a matching pair of passwords.";
+	$scope.message = loginService.loginMessage;
 });
 
 
