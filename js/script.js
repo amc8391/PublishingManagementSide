@@ -222,7 +222,7 @@ myApp.controller('EasyPostTestsController', function ($scope, $http, $filter, lo
 		var dateFormat = "MM-dd-yyyy";
 		var EST = "-0500";
 		var dateString = $filter('date')(Date.now(), dateFormat, EST);
-		var testPurch = unescape(encodeURIComponent(JSON.stringify(new pmsPrototypes.purchase(dateString, 12.50, 2, 2, null, "testPaypalID"))));
+		var testPurch = JSON.stringify(new pmsPrototypes.purchase(dateString, 12.50, 2, 2, null, "testPaypalID"));
 		var url = SERVER_ADDRESS + "transaction/newPurchase";
 		$http.post(url, testPurch)
 			.then(function (response) {

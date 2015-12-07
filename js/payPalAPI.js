@@ -29,12 +29,17 @@ var PayPalAPI = function (myApiKey) {
 
 
 PayPalAPI.importPayments = function () {
-	var path = "/v1/payments/payment/"
+	var path = "v1/payments/payment/"
 	var method = "GET"
 	var getPayment = function (paymentID) {
 	};
 
 	var getPaymentList = function () {
+		return {
+			method: "GET",
+			url: PayPalAPI.ENTRYPOINT + path,
+
+		};
 		var params = {
 			'count': 20, //max
 		};
