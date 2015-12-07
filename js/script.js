@@ -50,8 +50,12 @@ myApp.config(function ($routeProvider) {
 			controller:		'EasyPostTestsController'
 		}).
 		when('/login', {
-			templateUrl:	'html/login.html',
-			controller:		'LoginController'
+			templateUrl:	'html/LogIn.html',
+			controller:		'LogInController'
+		}).
+		when('/signUp', {
+			templateUrl:	'html/SignUp.html',
+			controller:		'SignUpController'
 		}).
 		otherwise({
 			redirectTo:		'/404'
@@ -80,8 +84,6 @@ myApp.controller('BookController', function ($scope, $http, $routeParams, loginS
         $http.get(SERVER_ADDRESS + "book/getBook?bookID=" + lookupID)
             .then(function (response) {
                 var info = response.data;
-				b = new pmsPrototypes.book();
-
                 book.id = info.id;
                 book.title = info.title;
                 book.isbn = info.isbn;
@@ -203,7 +205,7 @@ myApp.controller('WarehouseController', function ($scope, $http, loginService) {
     $scope.getWarehouse($scope.uid);
 });
 
-myApp.controller('LoginController', function ($scope, $http, loginService) {
+myApp.controller('LogInController', function ($scope, $http, loginService) {
     $scope.tryLogin = function () {
         loginService.tryLogin($scope.username, $scope.password);
         $scope.message = loginService.loginMessage;
@@ -212,6 +214,34 @@ myApp.controller('LoginController', function ($scope, $http, loginService) {
 	$scope.loginButton = '<button type="button" class="btn btn-danger">' + $scope.message + '</button>';
     $scope.message = loginService.loginMessage;
 });
+
+myApp.controller('SignUpController', function ($scope, $http, loginService) {
+	var signUp = function (uName, pass1, pass2) {
+		if (pass1 === pass2) {
+			var url = SERVER_ADDRESS + "login/attempt";
+			var userData = null;
+			$http.post(url, {
+				"username": uName,
+				"password": pass1
+			}, null)
+				.then(function (response) {
+					userData = response.data;
+					if (userData.uid !== -1) {
+						loginServiceInstance.authenticated = true;
+						loginServiceInstance.currentUser = userData;
+						loginServiceInstance.updateLoginMessage();
+					}
+				}, function (response) {
+					loginServiceInstance.authenticated = false;
+					loginServiceInstance.currentUser = null;
+					loginServiceInstance.updateLoginMessage();
+				});
+		} else {
+			$scope.message = "Please input a matching pair of passwords.";
+		}
+	};
+});
+
 
 myApp.controller('EasyPostTestsController', function ($scope, $http, $filter, loginService, pmsPrototypes) {
 	var easyPostApiKey = "AamsQ2dRs4aBuMwgewqPaA";
@@ -224,17 +254,14 @@ myApp.controller('EasyPostTestsController', function ($scope, $http, $filter, lo
 		var dateString = $filter('date')(Date.now(), dateFormat, EST);
 		var testPurch = JSON.stringify(new pmsPrototypes.purchase(dateString, 12.50, 2, 2, null, "testPaypalID"));
 		var url = SERVER_ADDRESS + "transaction/newPurchase";
-		$http({
-			'method' : 'POST',
-			'url' : url,
-			'data' : testPurch
-		}).then(function (response) {
-			console.log("SUCCESS");
-			console.log(response);
-		}, function (response) {
-			console.log("FAILURE");
-			console.log(response);
-		});
+		$http.post(url, testPurch)
+			.then(function (response) {
+				console.log("SUCCESS");
+				console.log(response);
+			}, function (response) {
+				console.log("FAILURE");
+				console.log(response);
+			});
 	};
 
 	$scope.testShipmentCreation = function () {
@@ -314,6 +341,31 @@ myApp.factory('loginService', function ($http) {
         currentUser : null,
         authenticated : false,
         loginMessage : 'Please log in to use PMS',
+		trySignup : function (username, pass1, pass2) {
+			if (pass1 !== pass2) {
+				loginServiceInstance.authenticated = false;
+                loginServiceInstance.currentUser = null;
+                loginServiceInstance.updateLoginMessage();
+			}
+			var url = SERVER_ADDRESS + "login/new";
+			var userData = null;
+			$http.post(url, {
+				"username": username,
+				"password": pass1
+			}, null)
+                .then(function (response) {
+                    userData = response.data;
+                    if (userData.uid !== -1) {
+                        loginServiceInstance.authenticated = true;
+                        loginServiceInstance.currentUser = userData;
+                        loginServiceInstance.updateLoginMessage();
+                    }
+                }, function (response) {
+                    loginServiceInstance.authenticated = false;
+                    loginServiceInstance.currentUser = null;
+                    loginServiceInstance.updateLoginMessage();
+                });
+		},
         tryLogin : function (username, password) {
             //-1	fail case
             //UID	pass case
