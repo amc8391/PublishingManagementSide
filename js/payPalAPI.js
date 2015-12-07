@@ -1,9 +1,18 @@
 var PayPalAPI = function (myApiKey) {
-	this.apiKey = myApiKey || apiKey;
+	this.BUSINESS_NAME = "tosh0204@gmail.com";
 };
 
-PayPalAPI.addToCart = function () {
-
+PayPalAPI.addToCart = function (itemName, price, currency_code) {
+	var params = {
+		// API Key/Business Info
+		"business" : PayPalAPI.BUSINESS_NAME,
+		// Shopping Cart Info
+		"cmd" : "_cart",
+		"add" : "1",
+		// Purchasing Item Info
+		"item_name" : itemName,
+		"amount" :
+	};
 };
 
 PayPalAPI.viewCart = function () {
