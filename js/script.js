@@ -222,7 +222,7 @@ myApp.controller('EasyPostTestsController', function ($scope, $http, $filter, lo
 		var dateFormat = "MM-dd-yyyy";
 		var EST = "-0500";
 		var dateString = $filter('date')(Date.now(), dateFormat, EST);
-		var testPurch = JSON.stringify(new pmsPrototypes.purchase(dateString, 12.50, 2, 2, null, "testPaypalID"));
+		var testPurch = unescape(encodeURIComponent(JSON.stringify(new pmsPrototypes.purchase(dateString, 12.50, 2, 2, null, "testPaypalID"))));
 		var url = SERVER_ADDRESS + "transaction/newPurchase";
 		$http.post(url, testPurch)
 			.then(function (response) {
@@ -274,7 +274,7 @@ myApp.controller('OrdersController', function ($scope, $http, loginService) {
 	}
 });
 
-myApp.factory('pmsPrototypes', function () {
+myApp.factory('pmsPrototypes', function ($http) {
 	var pmsPrototypesInstance = {
 		'book' : function (t, aID, invCount, p, rat, is, gen, userID, lbs) {
 			this.id = null;
@@ -287,6 +287,9 @@ myApp.factory('pmsPrototypes', function () {
 			this.genre = gen;
 			this.uid = userID;
 			this.Weight = lbs;
+			this.getAuthorInfo = function () {
+//				$http.get
+			};
 		},
 		'author' : function (n) {
 			this.id = null;
@@ -393,7 +396,6 @@ myApp.factory('loginService', function ($http, $location) {
 		},
 
 		buttonType: "btn-danger"
-
 
     };
     return loginServiceInstance;
