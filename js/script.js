@@ -210,7 +210,11 @@ myApp.controller('LoginController', function ($scope, $http, loginService) {
         $scope.message = loginService.loginMessage;
     };
     $scope.loginService = loginService;
-	$scope.loginButton = '<button type="button" class="btn btn-danger">' + $scope.message + '</button>';
+	if (loginService.authenticated) {
+		$scope.loginButton = '<button type="button" class="btn btn-success">' + loginService.loginMessage + '</button>';
+	} else {
+		$scope.loginButton = '<button type="button" class="btn btn-danger">' + loginService.loginMessage + '</button>';
+	}
     $scope.message = loginService.loginMessage;
 });
 
@@ -393,15 +397,19 @@ myApp.factory('loginService', function ($http, $location) {
         updateLoginMessage: function () {
             if (loginServiceInstance.authenticated) {
                 loginServiceInstance.loginMessage = 'Logged in as ' + loginServiceInstance.currentUser.username;
+				loginServiceInstance.buttonType = "btn-success";
 				loginServiceInstance.redirectHome();
             } else {
                 loginServiceInstance.loginMessage = 'Please log in or sign up to use PMS';
+				loginServiceInstance.buttonType = "btn-danger";
             }
         },
 
 		redirectHome: function () {
-                    $location.path('/');
-		}
+			$location.path('/');
+		},
+
+		buttonType: "btn-danger"
 
 
     };

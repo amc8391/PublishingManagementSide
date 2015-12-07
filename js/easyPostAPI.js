@@ -9,7 +9,7 @@ EasyPostRequestor.prototype.request = function () {
 
 };
 
-EasyPostRequestor.prototype.request = function(method, path, params, callback, parent) {
+EasyPostRequestor.prototype.request = function (method, path, params, callback, parent) {
 	var promise_ = new Parse.Promise();
 	delete params.apiKey;
 	this.encodeParams(params);
@@ -38,7 +38,7 @@ EasyPostRequestor.prototype.request = function(method, path, params, callback, p
 		headers: {
 			'Authorization': auth,
 			'Accept': 'application/json',
-			'Content-Type': 'application/json',
+			'Content-Type': 'application/json'
 		},
 		url: 'https://api.easypost.com:443' + path,
 		body: params,
