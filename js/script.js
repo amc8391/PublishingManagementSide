@@ -46,7 +46,7 @@ myApp.config(function ($routeProvider) {
 			controller:		'AlertsController'
 		}).
 		when('/easyposttests', {
-			templateUrl:	'html/EasyPostTests',
+			templateUrl:	'html/EasyPostTests.html',
 			controller:		'EasyPostTestsController'
 		}).
 		when('/login', {
