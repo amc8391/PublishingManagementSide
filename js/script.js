@@ -273,21 +273,21 @@ myApp.factory('pmsPrototypes', function () {
 			this.id = null;
 			this.name = n;
 		},
-		'purchase' : function (d, tot, customerID, bID, shipID, ppID) {
+		'purchase' : function (d, tot, uID, bID, shipID, ppID) {
 			this.id = null;
 			this.date = d;
 			this.total = tot;
-			this.custID = customerID;
+			this.userID = uID;
 			this.bookID = bID;
 			this.shipmentID = shipID;
 			this.paypalID = ppID;
 		},
-		'shipment' : function (sd, dd, stat, purID, customerID, lbs, tID) {
+		'shipment' : function (sd, dd, stat, purID, uID, lbs, tID) {
 			this.id = null;
 			this.sendDate = sd;
 			this.status = stat;
 			this.purchaseID = purID;
-			this.custID = customerID;
+			this.userID = uID;
 			this.weight = lbs;
 			this.trackingID = tID;
 		},
