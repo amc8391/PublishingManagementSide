@@ -17,6 +17,10 @@ myApp.config(function ($routeProvider) {
 			templateUrl:	'html/BookView.html',
 			controller:		'BookController'
 		}).
+		when('/book?bookID=:bid', {
+			templateUrl:	'html/BookView.html',
+			controller:		'BookController'
+		}).
 		when('/bookadd', {
 			templateUrl:	'html/BookAdd.html',
 			controller:		'BookController'
@@ -40,6 +44,10 @@ myApp.config(function ($routeProvider) {
 		when('/alerts', {
 			templateUrl:	'html/Alerts.html',
 			controller:		'AlertsController'
+		}).
+		when('/orders', {
+			templateUrl:	'html/Orders.html',
+			controller:		'OrdersController'
 		}).
 		when('/easyposttests', {
 			templateUrl:	'html/EasyPostTests.html',
@@ -136,8 +144,7 @@ myApp.controller('BookController', function ($scope, $http, $routeParams, loginS
             $scope.message = "Please log in before attempting to update a book's information";
         }
     };
-
-	if ($routeParams.bookID !== null) {
+	if ($routeParams.bookID !== undefined) {
 		book.getBookInfo($routeParams.bookID);
 	}
 });
@@ -156,7 +163,7 @@ myApp.controller('buyController', function ($scope) {
 });
 
 myApp.controller('indexController', function ($scope) {
-    $scope.message = 'Look! I am the main page.';
+    //$scope.message = 'Look! I am the main page.';
 });
 
 myApp.controller('NotFoundController', function ($scope) {
@@ -165,12 +172,12 @@ myApp.controller('NotFoundController', function ($scope) {
 });
 
 myApp.controller('HomeController', function ($scope) {
-    $scope.message = 'Welcome to PMS.';
+    $scope.message = 'Welcome to PMS';
 });
 
 myApp.controller('WarehouseController', function ($scope, $http, loginService) {
     if (loginService.authenticated) {
-        $scope.message = 'Welcome, ' + loginService.currentUser.uid;
+        $scope.message = 'Welcome, ' + loginService.currentUser.username;
         $scope.getWarehouse = function (uid) {
             var url = SERVER_ADDRESS + "book/warehouse?uid=" + loginService.currentUser.uid;
             var userData = null;
@@ -209,8 +216,12 @@ myApp.controller('LoginController', function ($scope, $http, loginService) {
 
 myApp.controller('SignUpController', function ($scope, $http, loginService) {
 	$scope.loginService = loginService;
+	$scope.trySignup = function () {
+		loginService.trySignup($scope.username, $scope.pass1, $scope.pass2);
+		$scope.message = loginService.loginMessage;
+	};
+	$scope.loginService = loginService;
 	$scope.loginButton = '<button type="button" class="btn btn-danger">' + $scope.message + '</button>';
-	$scope.message = "Please input a matching pair of passwords.";
 	$scope.message = loginService.loginMessage;
 });
 
@@ -255,6 +266,24 @@ myApp.controller('AlertsController', function ($scope, $http, loginService) {
 			});
 	} else {
 		$scope.message = "Please log in to view your alerts";
+	}
+});
+
+myApp.controller('OrdersController', function ($scope, $http, loginService) {
+	if (loginService.authenticated) {
+		var url = SERVER_ADDRESS + "transaction/getPurchases?uid=" + loginService.currentUser.uid;
+		$http.get(url)
+			.then(function (response) {
+				console.log("SUCCESS");
+				console.log(response);
+				$scope.purchaseList = response.data;
+			}, function (response) {
+				console.log("FAILURE");
+				console.log(response);
+				$scope.message = "Error getting purchase list";
+			});
+	} else {
+		$scope.message = "Please log in to view your purchases";
 	}
 });
 
@@ -308,7 +337,7 @@ myApp.factory('pmsPrototypes', function () {
 	return pmsPrototypesInstance;
 });
 
-myApp.factory('loginService', function ($http) {
+myApp.factory('loginService', function ($http, $window) {
     var loginServiceInstance = {
         currentUser : null,
         authenticated : false,
@@ -364,10 +393,15 @@ myApp.factory('loginService', function ($http) {
         updateLoginMessage: function () {
             if (loginServiceInstance.authenticated) {
                 loginServiceInstance.loginMessage = 'Logged in as ' + loginServiceInstance.currentUser.username;
+				loginServiceInstance.redirectHome();
             } else {
                 loginServiceInstance.loginMessage = 'Please log in or sign up to use PMS';
             }
-        }
+        },
+
+		redirectHome: function () {
+			$window.location.href = '/';
+		}
 
     };
     return loginServiceInstance;

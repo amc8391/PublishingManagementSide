@@ -4,24 +4,18 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>ISBN</th>
-                <th>Author</th>
-                <th>Rating</th>
-                <th>Genre</th>
-                <th>Count</th>
+                <th>Date</th>
                 <th>Price</th>
+                <th>Book</th>
+                <th>Shipment</th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="purchase in purchaseList">
-                <th scope="row"><a href="books?id=" + book.id>{{book.title}}</a></th>
-                <td>{{book.isbn}}</td>
-                <td>{{book.author}}</td>
-                <td>{{book.rating}}</td>
-                <td>{{book.genre}}</td>
-                <td>{{book.count}}</td>
-                <td>{{book.price | currency}}</td>
+                <th scope="row">{{purchase.date}}</th>
+                <td>{{purchase.total}}</td>
+                <td><a href="book/bookID={{purcase.bookID}}"></a>{{purchase.bookID}}</td>
+                <td>{{purchase.shipmentID}}</td>
             </tr>
         </tbody>
     </table>

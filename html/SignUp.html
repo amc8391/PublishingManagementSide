@@ -1,11 +1,11 @@
 <div class="jumbotron text-center">
     <h1>SignUp Page</h1>
     <p>{{ loginService.loginMessage }}</p>
-    <input type="text" ng-model="username" />
+    <input type="text" placeholder="Username" ng-model="username" />
     <br>
-    <input type="password" ng-model="pass1" />
+    <input type="password" placeholder="Password" ng-model="pass1" />
     <br>
-    <input type="password" ng-model="pass2" />
+    <input type="password" placeholder="Password Confirmation" ng-model="pass2" />
     <br>
     <button ng-click="signUp(username, pass1, pass2)">Sign Up</button>
     <br>
