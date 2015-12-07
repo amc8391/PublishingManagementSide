@@ -337,7 +337,7 @@ myApp.factory('pmsPrototypes', function () {
 	return pmsPrototypesInstance;
 });
 
-myApp.factory('loginService', function ($http, $window) {
+myApp.factory('loginService', function ($http, $location) {
     var loginServiceInstance = {
         currentUser : null,
         authenticated : false,
@@ -400,8 +400,9 @@ myApp.factory('loginService', function ($http, $window) {
         },
 
 		redirectHome: function () {
-			$window.location.href = '/';
+                    $location.path('/');
 		}
+
 
     };
     return loginServiceInstance;

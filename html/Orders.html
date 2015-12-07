@@ -14,7 +14,7 @@
             <tr ng-repeat="purchase in purchaseList">
                 <th scope="row">{{purchase.date}}</th>
                 <td>{{purchase.total}}</td>
-                <td><a href="book/bookID={{purcase.bookID}}"></a>{{purchase.bookID}}</td>
+                <td><a href="#book?bookID={{purcase.bookID}}"></a>{{purchase.bookID}}</td>
                 <td>{{purchase.shipmentID}}</td>
             </tr>
         </tbody>
