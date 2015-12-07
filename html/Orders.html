@@ -1,5 +1,5 @@
 <div class="jumbotron text-center">
-    <h1>Warehouse Page</h1>
+    <h1>Past Orders</h1>
     <p>{{ message }}</p>
     <table class="table table-striped">
         <thead>
@@ -14,8 +14,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="book in bookList">
-                <th scope="row"><a href="#books?bookID=" + book.id>{{book.title}}</a></th>
+            <tr ng-repeat="purchase in purchaseList">
+                <th scope="row"><a href="books?id=" + book.id>{{book.title}}</a></th>
                 <td>{{book.isbn}}</td>
                 <td>{{book.author}}</td>
                 <td>{{book.rating}}</td>

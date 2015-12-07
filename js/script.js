@@ -61,7 +61,7 @@ myApp.config(function ($routeProvider) {
 
 // create the controllers and inject Angular's $scope
 
-myApp.controller('BookController', function ($scope, $http, loginService, pmsPrototypes) {
+myApp.controller('BookController', function ($scope, $http, $routeParams, loginService, pmsPrototypes) {
     var book = this;
     //to be eliminated once I figure out how to do this correctly
     book.id = "";
@@ -138,6 +138,10 @@ myApp.controller('BookController', function ($scope, $http, loginService, pmsPro
             $scope.message = "Please log in before attempting to update a book's information";
         }
     };
+
+	if ($routeParams.bookID !== null) {
+		book.getBookInfo($routeParams.bookID);
+	}
 });
 
 myApp.controller('buyController', function ($scope) {
@@ -219,7 +223,7 @@ myApp.controller('EasyPostTestsController', function ($scope, $http, $filter, lo
 		var EST = "-0500";
 		var dateString = $filter('date')(Date.now(), dateFormat, EST);
 		var testPurch = new pmsPrototypes.purchase(dateString, 12.50, 2, 2, null, "testPaypalID");
-		var url = SERVER_ADDRESS + "transaction/addPurchase";
+		var url = SERVER_ADDRESS + "transaction/newPurchase";
 		$http({
 			'method' : 'POST',
 			'url' : url,
