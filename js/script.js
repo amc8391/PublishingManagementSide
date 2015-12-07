@@ -256,49 +256,53 @@ myApp.controller('AlertsController', function ($scope, $http, loginService) {
 });
 
 myApp.factory('pmsPrototypes', function () {
-	var book = function (t, aID, invCount, p, rat, is, gen, userID, lbs) {
-		this.id = null;
-		this.title = t;
-		this.authorID = aID;
-		this.inventoryCount = invCount;
-		this.price = p;
-		this.rating = rat;
-		this.isbn = is;
-		this.genre = gen;
-		this.uid = userID;
-		this.Weight = lbs;
+	var pmsPrototypesInstance = {
+		'book' : function (t, aID, invCount, p, rat, is, gen, userID, lbs) {
+			this.id = null;
+			this.title = t;
+			this.authorID = aID;
+			this.inventoryCount = invCount;
+			this.price = p;
+			this.rating = rat;
+			this.isbn = is;
+			this.genre = gen;
+			this.uid = userID;
+			this.Weight = lbs;
+		},
+		'author' : function (n) {
+			this.id = null;
+			this.name = n;
+		},
+		'purchase' : function (d, tot, customerID, bID, shipID, ppID) {
+			this.id = null;
+			this.date = d;
+			this.total = tot;
+			this.custID = customerID;
+			this.bookID = bID;
+			this.shipmentID = shipID;
+			this.paypalID = ppID;
+		},
+		'shipment' : function (sd, dd, stat, purID, customerID, lbs, tID) {
+			this.id = null;
+			this.sendDate = sd;
+			this.status = stat;
+			this.purchaseID = purID;
+			this.custID = customerID;
+			this.weight = lbs;
+			this.trackingID = tID;
+		},
+		'user' : function (uname, pass) {
+			this.id = null;
+			this.username = uname;
+			this.password = pass;
+		},
+		'alert' : function (mess, bID) {
+			this.message = mess;
+			this.bookID = bID;
+		}
 	};
-	var author = function (n) {
-		this.id = null;
-		this.name = n;
-	};
-	var purchase = function (d, tot, customerID, bID, shipID, ppID) {
-		this.id = null;
-		this.date = d;
-		this.total = tot;
-		this.custID = customerID;
-		this.bookID = bID;
-		this.shipmentID = shipID;
-		this.paypalID = ppID;
-	};
-	var shipment = function (sd, dd, stat, purID, customerID, lbs, tID) {
-		this.id = null;
-		this.sendDate = sd;
-		this.status = stat;
-		this.purchaseID = purID;
-		this.custID = customerID;
-		this.weight = lbs;
-		this.trackingID = tID;
-	};
-	var user = function (uname, pass) {
-		this.id = null;
-		this.username = uname;
-		this.password = pass;
-	};
-	var alert = function (mess, bID) {
-		this.message = mess;
-		this.bookID = bID;
-	};
+
+	return pmsPrototypesInstance;
 });
 
 myApp.factory('loginService', function ($http) {
