@@ -46,7 +46,7 @@ myApp.config(function ($routeProvider) {
 			controller:		'EasyPostTestsController'
 		}).
 		when('/login', {
-			templateUrl:	'html/LogIn.html',
+			templateUrl:	'html/Login.html',
 			controller:		'LoginController'
 		}).
 		when('/signup', {
